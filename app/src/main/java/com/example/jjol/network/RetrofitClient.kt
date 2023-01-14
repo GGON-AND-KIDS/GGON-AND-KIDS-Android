@@ -13,14 +13,14 @@ class RetrofitClient {
         .client(okHttpClient())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-
 }
 
 private fun okHttpClient(): OkHttpClient {
     val httpLoggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-    val authorizationInterceptor =
+    val authorizationInterceptor = AuthorizationInterceptor()
 
     return OkHttpClient.Builder()
         .addInterceptor(httpLoggingInterceptor)
+        .addInterceptor(authorizationInterceptor)
         .build()
 }
