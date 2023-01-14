@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -107,7 +108,15 @@ fun ChallengeScreen() {
         Spacer(modifier = Modifier.height(15.dp))
 
         ChallengeList(
-            list = listOf(),
+            list = listOf(
+                ChallengeListData(
+                    imageUrl = null,
+                    title = "2023새해 기념",
+                    content = "랭커이름",
+                    time = 23,
+                    rank = null,
+                )
+            ),
             title = "챌린지 리스트",
             state = ChallengeState.ShowTime,
             onItemClicked = {},
@@ -192,9 +201,12 @@ private fun ChallengeListItem(
             .fillMaxWidth()
             .height(60.dp)
             .clickable { onItemClicked() }
-            .padding(horizontal = 20.dp),
+            .padding(horizontal = 20.dp)
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Image(
                 modifier = Modifier
                     .size(40.dp)
@@ -248,27 +260,21 @@ private fun ChallengeListItem(
                         fontSize = 12.sp,
                         fontStyle = FontStyle(R.font.notosans_kr_regular)
                     ),
+                    modifier = Modifier.fillMaxWidth().wrapContentWidth(Alignment.End)
                 )
             }
-
         }
-    }
+        Canvas(modifier = Modifier.fillMaxWidth()) {
+            val canvasWidth = size.width
+            val canvasHeight = size.height
 
-    Canvas(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-            .wrapContentHeight(Alignment.Bottom)
-    ) {
-        val canvasWidth = size.width
-        val canvasHeight = size.height
-
-        drawLine(
-            start = Offset(x = 0f, y = canvasHeight),
-            end = Offset(x = canvasWidth, y = canvasHeight),
-            color = Color.Gray,
-            strokeWidth = 1F
-        )
+            drawLine(
+                start = Offset(x = 0f, y = canvasHeight),
+                end = Offset(x = canvasWidth, y = canvasHeight),
+                color = Color.Gray,
+                strokeWidth = 2F
+            )
+        }
     }
 }
 
