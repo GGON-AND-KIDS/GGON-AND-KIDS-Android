@@ -4,15 +4,20 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 class RetrofitClient {
-    private val baseURI = ""
+    private val baseURI = "http://localhost:8000/"
 
     val retrofit = Retrofit.Builder()
         .baseUrl(baseURI)
         .client(okHttpClient())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
+    fun getUser(): UserAPI {
+        return retrofit.create(UserAPI::class.java)
+    }
 }
 
 private fun okHttpClient(): OkHttpClient {
