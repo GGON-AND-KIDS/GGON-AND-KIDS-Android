@@ -10,6 +10,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.jjol.navigation.JjolNavigation
 import com.example.jjol.ui.ChallengeScreen
 import com.example.jjol.ui.theme.JJOLTheme
 
@@ -17,7 +21,29 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            LoginScreen()
+            BaseApp()
+        }
+    }
+}
+
+@Composable
+fun BaseApp() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = JjolNavigation.Login.route) {
+        composable(JjolNavigation.Login.route) {
+            LoginScreen(navController)
+        }
+        composable(JjolNavigation.Home.route) {
+            HomeScreen(navController)
+        }
+        composable(JjolNavigation.Match.route) {
+            MatchScreen(navController)
+        }
+        composable(JjolNavigation.Match.route) {
+            MatchSuccessScreen(navController)
+        }
+        composable(JjolNavigation.Challenge.route) {
+            ChallengeScreen(navController)
         }
     }
 }
