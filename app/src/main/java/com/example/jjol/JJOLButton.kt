@@ -24,7 +24,8 @@ enum class BtnSize(
     PREVIOUS_BTN(24.dp, 24.dp, 10.dp, 10.dp),
     GO_BTN(42.dp, 42.dp, 10.dp, 10.dp),
     START_AND_CREATE_BTN(27.dp, 27.dp, 13.dp, 13.dp),
-    RESULT_BTN(50.dp, 50.dp, 14.dp, 14.dp)
+    RESULT_BTN(50.dp, 50.dp, 14.dp, 14.dp),
+    CHECK_BTN(27.dp, 27.dp, 8.dp, 8.dp)
 }
 
 

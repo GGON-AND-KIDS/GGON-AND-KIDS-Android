@@ -9,3 +9,4 @@ val Teal200 = Color(0xFF03DAC5)
 
 val primary = Color(0xFF4787F3)
 val gray = Color(0x4D000000)
+val clock = Color(0xFFD9D9D9)
