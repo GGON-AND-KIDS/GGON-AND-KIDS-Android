@@ -40,7 +40,7 @@ fun BaseApp() {
         composable(JjolNavigation.Match.route) {
             MatchScreen(navController)
         }
-        composable(JjolNavigation.Match.route) {
+        composable(JjolNavigation.MatchSuccess.route) {
             MatchSuccessScreen(navController)
         }
         composable(JjolNavigation.Challenge.route) {
@@ -48,6 +48,9 @@ fun BaseApp() {
         }
         composable(JjolNavigation.CreateChallenge.route) {
             CreateChallenge(navController)
+        }
+        composable(JjolNavigation.JoinChallenge.route) {
+            JoinChallenge(navController)
         }
     }
 }

@@ -123,9 +123,37 @@ fun ChallengeScreen(navController: NavController) {
                 ChallengeListData(
                     imageUrl = null,
                     title = "2023새해 기념",
-                    content = "랭커이름",
-                    time = 23,
+                    content = "@new year",
+                    time = 11,
                     rank = null,
+                ),
+                ChallengeListData(
+                    imageUrl = null,
+                    title = "하이톤은 언제 끝날까요",
+                    content = "@finish",
+                    time = 12,
+                    rank = null
+                ),
+                ChallengeListData(
+                    imageUrl = null,
+                    title = "안버지",
+                    content = "@father",
+                    time = 59,
+                    rank = null
+                ),
+                ChallengeListData(
+                    imageUrl = null,
+                    title = "쫄?",
+                    content = "@JJOL",
+                    time = 3,
+                    rank = null
+                ),
+                ChallengeListData(
+                    imageUrl = null,
+                    title = "1초라도 안보이면",
+                    content = "@",
+                    time = 1,
+                    rank = null
                 )
             ),
             title = "챌린지 리스트",
@@ -152,7 +180,10 @@ fun ChallengeScreen(navController: NavController) {
                     .fillMaxWidth()
                     .wrapContentWidth()
             ) {
+                navController.navigate(JjolNavigation.JoinChallenge.route)
             }
+
+            Spacer(modifier = Modifier.height(30.dp))
         } else {
             JJOLButton(
                 text = "생성하기",
@@ -290,7 +321,7 @@ private fun ChallengeListItem(
 
             if(state == ChallengeState.ShowTime) {
                 Text(
-                    text = time.toString(),
+                    text = time.toString() + "초",
                     color = Color.Gray,
                     style = TextStyle(
                         fontSize = 12.sp,

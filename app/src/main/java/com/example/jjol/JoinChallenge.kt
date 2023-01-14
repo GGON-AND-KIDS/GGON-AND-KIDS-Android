@@ -1,7 +1,9 @@
-package com.example.jjol.ui
+package com.example.jjol
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,42 +20,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.jjol.BtnSize
-import com.example.jjol.JJOLButton
-import com.example.jjol.JJOLInput
-import com.example.jjol.R
-import com.example.jjol.Time
 import com.example.jjol.ui.theme.clock
 
 private val roundedCornerShape: RoundedCornerShape = RoundedCornerShape(12.dp)
 
 @Composable
-fun CreateChallenge(navController: NavController) {
-
-    val inputChallengeName = remember { mutableStateOf("") }
+fun JoinChallenge(navController: NavController) {
     val hourState = remember { mutableStateOf("00") }
     val minState = remember { mutableStateOf("00") }
-    val secState = remember { mutableStateOf("01") }
+    val secState = remember { mutableStateOf("11") }
 
     Column {
         Spacer(modifier = Modifier.height(250.dp))
 
-        JJOLInput(
-            state = inputChallengeName,
-            text = "챌린지 이름",
-            paddingTop = 0.dp,
-            paddingStart = 91.dp,
-            paddingEnd = 91.dp,
-        )
-        
         Spacer(modifier = Modifier.height(30.dp))
 
         Row(
@@ -105,19 +93,15 @@ fun CreateChallenge(navController: NavController) {
 
         Spacer(modifier = Modifier.height(194.dp))
 
-        JJOLButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentWidth(Alignment.CenterHorizontally),
-            text = "생성하기",
-            btnSize = BtnSize.START_AND_CREATE_BTN
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
         ) {
-            navController.popBackStack()
+            Image(
+                modifier = Modifier.padding(top = 70.dp),
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_baseline_fingerprint_24),
+                contentDescription = null
+            )
         }
     }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun ShowCreateChallenge() {
 }
