@@ -1,5 +1,6 @@
 package com.example.jjol
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -21,7 +22,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.jjol.model.SignInRequest
+import com.example.jjol.model.SignInResponse
+import com.example.jjol.network.RetrofitClient
 import com.example.jjol.ui.theme.primary
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @Composable
 fun LoginScreen() {
@@ -65,7 +72,9 @@ fun LoginScreen() {
             JJOLButton(
                 text = "GO",
                 btnSize = BtnSize.GO_BTN,
-                onClick = {  }
+                onClick = {
+                    connectServer(signInRequest = SignInRequest(idState.value, passwordState.value))
+                }
             )
         }
         Image(
@@ -114,4 +123,36 @@ fun JJOLInput(
             )
         )
     }
+}
+
+private fun connectServer(signInRequest: SignInRequest) {
+    val retrofitClient = RetrofitClient()
+
+    retrofitClient.getUser().signIn(signInRequest).enqueue(object : Callback<SignInResponse> {
+        override fun onResponse(call: Call<SignInResponse>, response: Response<SignInResponse>) {
+            if (response.code() == 200) {
+                Jjol.token = response.body()?.token.toString()
+            }
+            if (response.code() == 404) {
+                retrofitClient.getUser().signUp(signInRequest).enqueue(object : Callback<Void> {
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        retrofitClient.getUser().signIn(signInRequest).enqueue(object : Callback<SignInResponse>{
+                            override fun onResponse(call: Call<SignInResponse>, response: Response<SignInResponse>) {
+                                if (response.code() == 200) {
+                                    Jjol.token = response.body()?.token.toString()
+                                }
+                            }
+                            override fun onFailure(call: Call<SignInResponse>, t: Throwable) {}
+                        })
+                    }
+
+                    override fun onFailure(call: Call<Void>, t: Throwable) {}
+                })
+            }
+        }
+
+        override fun onFailure(call: Call<SignInResponse>, t: Throwable) {
+
+        }
+    })
 }
