@@ -10,6 +10,8 @@ sealed class JjolNavigation(val route: String) {
 
     object Challenge : JjolNavigation("challenge")
 
+    object CreateChallenge : JjolNavigation("create challenge")
+
     object Match : JjolNavigation("match")
 
     object MatchSuccess : JjolNavigation("match success")

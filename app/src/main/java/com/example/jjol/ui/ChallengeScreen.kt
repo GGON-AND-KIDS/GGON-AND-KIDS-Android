@@ -26,6 +26,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -43,12 +47,14 @@ import androidx.navigation.NavController
 import com.example.jjol.BtnSize
 import com.example.jjol.JJOLButton
 import com.example.jjol.R
+import com.example.jjol.navigation.JjolNavigation
 import com.example.jjol.ui.theme.primary
 
 @Composable
 fun ChallengeScreen(navController: NavController) {
 
     val scrollState = rememberScrollState()
+    var choosed by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -62,7 +68,11 @@ fun ChallengeScreen(navController: NavController) {
             text = "뒤로",
             btnSize = BtnSize.PREVIOUS_BTN,
         ) {
-            navController.popBackStack()
+            if (choosed) {
+                choosed = false
+            } else {
+                navController.popBackStack()
+            }
         }
         
         Spacer(modifier = Modifier.height(40.dp))
@@ -120,15 +130,40 @@ fun ChallengeScreen(navController: NavController) {
             ),
             title = "챌린지 리스트",
             state = ChallengeState.ShowTime,
-            onItemClicked = {},
+            onItemClicked = {
+                choosed = true
+            },
         )
 
-        ChallengeList(
-            list = listOf(),
-            title = "챌린지 랭킹",
-            state = ChallengeState.ShowRank,
-            onItemClicked = {},
-        )
+        if (choosed) {
+            ChallengeList(
+                list = listOf(),
+                title = "챌린지 랭킹",
+                state = ChallengeState.ShowRank,
+                onItemClicked = {},
+            )
+        }
+
+        if (choosed) {
+            JJOLButton(
+                text = "참가하기",
+                btnSize = BtnSize.START_AND_CREATE_BTN,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth()
+            ) {
+            }
+        } else {
+            JJOLButton(
+                text = "생성하기",
+                btnSize = BtnSize.START_AND_CREATE_BTN,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth(Alignment.CenterHorizontally)
+            ) {
+                navController.navigate(JjolNavigation.CreateChallenge.route)
+            }
+        }
     }
 }
 
@@ -261,7 +296,9 @@ private fun ChallengeListItem(
                         fontSize = 12.sp,
                         fontStyle = FontStyle(R.font.notosans_kr_regular)
                     ),
-                    modifier = Modifier.fillMaxWidth().wrapContentWidth(Alignment.End)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentWidth(Alignment.End)
                 )
             }
         }

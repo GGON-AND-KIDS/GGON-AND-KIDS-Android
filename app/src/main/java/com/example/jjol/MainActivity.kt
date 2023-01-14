@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.jjol.navigation.JjolNavigation
 import com.example.jjol.ui.ChallengeScreen
+import com.example.jjol.ui.CreateChallenge
 import com.example.jjol.ui.theme.JJOLTheme
 
 class MainActivity : ComponentActivity() {
@@ -44,6 +45,9 @@ fun BaseApp() {
         }
         composable(JjolNavigation.Challenge.route) {
             ChallengeScreen(navController)
+        }
+        composable(JjolNavigation.CreateChallenge.route) {
+            CreateChallenge(navController)
         }
     }
 }

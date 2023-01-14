@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.jjol.BtnSize
 import com.example.jjol.JJOLButton
 import com.example.jjol.JJOLInput
@@ -25,7 +26,7 @@ import com.example.jjol.JJOLInput
 private val roundedCornerShape: RoundedCornerShape = RoundedCornerShape(12.dp)
 
 @Composable
-fun CreateChallenge() {
+fun CreateChallenge(navController: NavController) {
 
     val inputChallengeName = remember { mutableStateOf("") }
 
@@ -76,5 +77,4 @@ fun CreateChallenge() {
 @Composable
 @Preview(showBackground = true)
 fun ShowCreateChallenge() {
-    CreateChallenge()
 }

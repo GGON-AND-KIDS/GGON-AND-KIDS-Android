@@ -47,9 +47,13 @@ fun MatchSuccessScreen(navController: NavController) {
     val secState = remember {
         mutableStateOf("00")
     }
-    CheckDialog {
-
+    val dialogState = remember {
+        mutableStateOf(false)
     }
+    if (dialogState.value) {
+        CheckDialog(onDismissRequest = {})
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
             modifier = Modifier
