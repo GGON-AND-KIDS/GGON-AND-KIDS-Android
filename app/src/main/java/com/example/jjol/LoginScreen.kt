@@ -127,16 +127,32 @@ fun JJOLInput(
 
 private fun connectServer(signInRequest: SignInRequest) {
     val retrofitClient = RetrofitClient()
+
     retrofitClient.getUser().signIn(signInRequest).enqueue(object : Callback<SignInResponse> {
         override fun onResponse(call: Call<SignInResponse>, response: Response<SignInResponse>) {
             if (response.code() == 200) {
-                Log.d("TAG", "token: "+response.body()?.token)
-                Jjol.prefs.token = response.body()?.token
+                Jjol.token = response.body()?.token.toString()
+            }
+            if (response.code() == 404) {
+                retrofitClient.getUser().signUp(signInRequest).enqueue(object : Callback<Void> {
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        retrofitClient.getUser().signIn(signInRequest).enqueue(object : Callback<SignInResponse>{
+                            override fun onResponse(call: Call<SignInResponse>, response: Response<SignInResponse>) {
+                                if (response.code() == 200) {
+                                    Jjol.token = response.body()?.token.toString()
+                                }
+                            }
+                            override fun onFailure(call: Call<SignInResponse>, t: Throwable) {}
+                        })
+                    }
+
+                    override fun onFailure(call: Call<Void>, t: Throwable) {}
+                })
             }
         }
 
         override fun onFailure(call: Call<SignInResponse>, t: Throwable) {
-            Log.d("TAG", "onFailure: "+t.message)
+
         }
     })
 }
