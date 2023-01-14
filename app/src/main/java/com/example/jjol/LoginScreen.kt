@@ -80,11 +80,13 @@ fun LoginScreen() {
 fun JJOLInput(
     state: MutableState<String>,
     text: String,
-    paddingTop: Dp
+    paddingTop: Dp,
+    paddingStart: Dp = 40.dp,
+    paddingEnd: Dp = 40.dp
 ) {
     Box(
         modifier = Modifier
-            .padding(top = paddingTop, start = 40.dp, end = 40.dp)
+            .padding(top = paddingTop, start = paddingStart, end = paddingEnd)
             .shadow(
                 elevation = 5.dp,
                 shape = RoundedCornerShape(30.dp)
