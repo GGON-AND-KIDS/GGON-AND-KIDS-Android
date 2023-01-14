@@ -39,13 +39,14 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.jjol.BtnSize
 import com.example.jjol.JJOLButton
 import com.example.jjol.R
 import com.example.jjol.ui.theme.primary
 
 @Composable
-fun ChallengeScreen() {
+fun ChallengeScreen(navController: NavController) {
 
     val scrollState = rememberScrollState()
 
