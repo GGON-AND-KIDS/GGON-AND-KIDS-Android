@@ -2,6 +2,7 @@ package com.example.jjol
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -23,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.jjol.navigation.JjolNavigation
 import com.example.jjol.ui.theme.gray
 
 @OptIn(ExperimentalTextApi::class)
@@ -57,7 +59,8 @@ fun HomeScreen(navController: NavController) {
                     elevation = 5.dp,
                     shape = RoundedCornerShape(30.dp)
                 )
-                .background(shape = RoundedCornerShape(30.dp), color = Color.White),
+                .background(shape = RoundedCornerShape(30.dp), color = Color.White)
+                .clickable { navController.navigate(JjolNavigation.Match.route) },
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
@@ -116,12 +119,13 @@ fun HomeScreen(navController: NavController) {
                     elevation = 5.dp,
                     shape = RoundedCornerShape(30.dp)
                 )
-                .background(shape = RoundedCornerShape(30.dp), color = Color.White),
+                .background(shape = RoundedCornerShape(30.dp), color = Color.White)
+                .clickable { navController.navigate(JjolNavigation.Challenge.route) },
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
                 modifier = Modifier.padding(horizontal = 20.dp, vertical = 25.dp),
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_match),
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_callenge),
                 contentDescription = null
             )
             Column(

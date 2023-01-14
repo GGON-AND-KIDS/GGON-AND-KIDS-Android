@@ -62,7 +62,7 @@ fun ChallengeScreen(navController: NavController) {
             text = "뒤로",
             btnSize = BtnSize.PREVIOUS_BTN,
         ) {
-            
+            navController.popBackStack()
         }
         
         Spacer(modifier = Modifier.height(40.dp))

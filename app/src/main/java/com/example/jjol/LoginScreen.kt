@@ -1,6 +1,5 @@
 package com.example.jjol
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -22,8 +21,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.jjol.model.SignInRequest
 import com.example.jjol.model.SignInResponse
+import com.example.jjol.navigation.JjolNavigation
 import com.example.jjol.network.RetrofitClient
 import com.example.jjol.ui.theme.primary
 import retrofit2.Call
@@ -73,7 +74,7 @@ fun LoginScreen(navController: NavController) {
                 text = "GO",
                 btnSize = BtnSize.GO_BTN,
                 onClick = {
-                    connectServer(signInRequest = SignInRequest(idState.value, passwordState.value))
+                    connectServer(signInRequest = SignInRequest(idState.value, passwordState.value), navController = navController)
                 }
             )
         }
@@ -125,13 +126,17 @@ fun JJOLInput(
     }
 }
 
-private fun connectServer(signInRequest: SignInRequest) {
+private fun connectServer(
+    signInRequest: SignInRequest,
+    navController: NavController,
+) {
     val retrofitClient = RetrofitClient()
 
     retrofitClient.getUser().signIn(signInRequest).enqueue(object : Callback<SignInResponse> {
         override fun onResponse(call: Call<SignInResponse>, response: Response<SignInResponse>) {
             if (response.code() == 200) {
                 Jjol.token = response.body()?.token.toString()
+                navController.navigate(route = JjolNavigation.Home.route)
             }
             if (response.code() == 404) {
                 retrofitClient.getUser().signUp(signInRequest).enqueue(object : Callback<Void> {
@@ -140,6 +145,7 @@ private fun connectServer(signInRequest: SignInRequest) {
                             override fun onResponse(call: Call<SignInResponse>, response: Response<SignInResponse>) {
                                 if (response.code() == 200) {
                                     Jjol.token = response.body()?.token.toString()
+                                    navController.navigate(route = JjolNavigation.Home.route)
                                 }
                             }
                             override fun onFailure(call: Call<SignInResponse>, t: Throwable) {}
