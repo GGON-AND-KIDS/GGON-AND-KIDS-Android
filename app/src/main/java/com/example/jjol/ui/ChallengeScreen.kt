@@ -1,11 +1,15 @@
 package com.example.jjol.ui
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,6 +17,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,12 +28,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.jjol.BtnSize
 import com.example.jjol.JJOLButton
 import com.example.jjol.R
@@ -94,7 +104,7 @@ fun ChallengeScreen() {
             )
         }
 
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(15.dp))
 
         ChallengeList(
             list = listOf(),
@@ -102,8 +112,6 @@ fun ChallengeScreen() {
             state = ChallengeState.ShowTime,
             onItemClicked = {},
         )
-
-        Spacer(modifier = Modifier.height(30.dp))
 
         ChallengeList(
             list = listOf(),
@@ -121,7 +129,21 @@ fun ChallengeList(
     state: ChallengeState,
     onItemClicked: () -> Unit
 ) {
-    Column {
+
+    val changeListRoundedCornerShape = RoundedCornerShape(25.dp)
+    Column(
+        modifier = Modifier
+            .padding(40.dp)
+            .shadow(
+                elevation = 1.dp,
+                shape = changeListRoundedCornerShape
+            )
+            .background(
+                color = Color.White,
+                shape = changeListRoundedCornerShape
+            )
+            .height(260.dp)
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -136,9 +158,117 @@ fun ChallengeList(
             Text(
                 text = title,
                 color = Color.White,
-                fontStyle = FontStyle(R.font.nunito_sans_lightㅅ)
+                fontStyle = FontStyle(R.font.nunito_sans_semibold)
             )
         }
+
+        LazyColumn() {
+            items(list) {
+                ChallengeListItem(
+                    title = it.title,
+                    content = it.content,
+                    time = it.time,
+                    rank = it.rank,
+                    state = state,
+                ) {
+                    onItemClicked()
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ChallengeListItem(
+    title: String,
+    content: String,
+    time: Int?,
+    rank: Int?,
+    state: ChallengeState,
+    onItemClicked: () -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(60.dp)
+            .clickable { onItemClicked() }
+            .padding(horizontal = 20.dp),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Image(
+                modifier = Modifier
+                    .size(40.dp)
+                    .background(
+                        color = primary,
+                        shape = CircleShape,
+                    ),
+                contentScale = ContentScale.Inside,
+                painter = painterResource(id = R.mipmap.challenge),
+                contentDescription = null,
+            )
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            Column {
+                Text(
+                    text = title,
+                    color = Color.Black,
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        fontStyle = FontStyle(R.font.notosans_kr_regular),
+                    ),
+                )
+
+                Text(
+                    text = content,
+                    color = Color.Gray,
+                    style = TextStyle(
+                        fontSize = 12.sp,
+                        fontStyle = FontStyle(R.font.notosans_kr_regular),
+                    )
+                )
+            }
+
+            if (state == ChallengeState.ShowRank) {
+                Text(
+                    text = rank.toString(),
+                    color = Color.Gray,
+                    style = TextStyle(
+                        fontSize = 12.sp,
+                        fontStyle = FontStyle(R.font.notosans_kr_regular)
+                    )
+                )
+            }
+
+            if(state == ChallengeState.ShowTime) {
+                Text(
+                    text = time.toString(),
+                    color = Color.Gray,
+                    style = TextStyle(
+                        fontSize = 12.sp,
+                        fontStyle = FontStyle(R.font.notosans_kr_regular)
+                    ),
+                )
+            }
+
+        }
+    }
+
+    Canvas(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .wrapContentHeight(Alignment.Bottom)
+    ) {
+        val canvasWidth = size.width
+        val canvasHeight = size.height
+
+        drawLine(
+            start = Offset(x = 0f, y = canvasHeight),
+            end = Offset(x = canvasWidth, y = canvasHeight),
+            color = Color.Gray,
+            strokeWidth = 1F
+        )
     }
 }
 
@@ -151,5 +281,6 @@ data class ChallengeListData (
     val imageUrl: String?,
     val title: String,
     val content: String,
-    val time: Int
+    val time: Int?,
+    val rank: Int?,
 )
