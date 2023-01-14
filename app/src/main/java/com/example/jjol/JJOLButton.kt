@@ -30,12 +30,13 @@ enum class BtnSize(
 
 @Composable
 fun JJOLButton(
+    modifier: Modifier = Modifier,
     text: String,
     btnSize: BtnSize,
     onClick: () -> Unit
 ) {
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .clip(RoundedCornerShape(60.dp))
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(60.dp),
